@@ -6,6 +6,8 @@ import sys
 import curses
 users = utmp.UtmpRecord()
 logged_users = {}
+format_string_norm = '%s%s (%d)'
+format_string_10 = '%s%s(%d)'
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
     white_text_escape = '\033[;37m'
@@ -41,7 +43,6 @@ for user in users :
         pass
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
-#http://old.nabble.com/Unable-to-see-os.environ-%27COLUMNS%27--td19487200.html
 print '%s%s%s' % ('                         ' \
 , title_message, len(logged_users) )
 print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ',\
@@ -58,16 +59,28 @@ print '    ',
 for user in logged_users.keys() :
     iter = iter + 1
     if user in friends :
-        print ' %s%s (%d)' %\
-        (white_text_escape, user.ljust(8), logged_users[user] ),
+        if logged_users[user] < 10 :
+            print format_string_norm %\
+            (white_text_escape, user.ljust(8), logged_users[user] ),
+        else :
+            print format_string_10 %\
+            (white_text_escape, user.ljust(8), logged_users[user] ),
     else :
         try :
             group = pwd.getpwnam(user)[3]
-            print ' %s%s (%d)' % ( groups[group], user.ljust(8),\
-            logged_users[user] ),
+            if logged_users[user] < 10 :
+                print format_string_norm % ( groups[group], user.ljust(8),\
+                logged_users[user] ),
+            else :
+                print format_string_10 % (groups[group], user.ljust(8),\
+                logged_users[user] ),
         except KeyError:
-            print ' %s%s (%d)' % ( default_colour, user.ljust(8),\
-            logged_users[user] ), 
+            if logged_users[user] < 10 :
+                print format_string_norm % ( default_colour, user.ljust(8),\
+                logged_users[user] ), 
+            else :
+                print format_string_10 % ( default_colour, user.ljust(8),\
+                logged_users[user] ), 
     if iter >= 5 :
         iter = 0
         print
