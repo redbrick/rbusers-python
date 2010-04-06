@@ -6,8 +6,10 @@ import sys
 import curses
 users = utmp.UtmpRecord()
 logged_users = {}
+#two format strings, to take a/c of users with >10 sessions
 format_string_norm = '%s%s (%d)'
 format_string_10 = '%s%s(%d)'
+#set colours if we have an encoding
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
     white_text_escape = '\033[;37m'
@@ -31,11 +33,15 @@ else :
     yellow_back_escape = ''
     groups = { 100 : '', 107 : '', 108 : '', 102 : '', 101 : '', 103 : '' }
     title_message = 'Total Number of Users Online:'
+
+#need a dict of users + times logged in
 for user in users :
     n = user.ut_user
     logged_users[n] = logged_users.get(n, 0) + 1
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
+
+#printing stuff
 print '%s%s%s' % ('                         ' \
 , title_message, len(logged_users) )
 print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ',
@@ -47,8 +53,11 @@ magenta_back_escape, ' ', default_colour, ' society   ',
 yellow_back_escape, ' ', default_colour, ' club       ',
 green_back_escape, ' ', default_colour, ' guest' )
 print
-iter = 0
 print '    ', 
+
+#go through and print the users. 
+#we only want 5 users for a line which is what iter is for
+iter = 0
 for user in logged_users :
     iter = iter + 1
     if user in friends :
