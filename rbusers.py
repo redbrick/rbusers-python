@@ -4,6 +4,7 @@ import pwd
 import os
 import sys
 import curses
+
 users = utmp.UtmpRecord()
 logged_users = {}
 #two format strings, to take a/c of users with >10 sessions
@@ -38,6 +39,7 @@ else :
 for user in users :
     n = user.ut_user
     logged_users[n] = logged_users.get(n, 0) + 1
+
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
 
@@ -82,4 +84,5 @@ for user in logged_users :
         iter = 0
         print
         print '    ',
+#reset the colour
 print default_colour
