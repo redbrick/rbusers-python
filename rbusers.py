@@ -55,10 +55,14 @@ green_back_escape, ' ', default_colour, ' guest' )
 print
 print '    ', 
 
+#Alan wants sorted users, so sorted users he shall get
+list_users = logged_users.keys()
+list_users.sort()
+
 #go through and print the users. 
 #we only want 5 users for a line which is what iter is for
 iter = 0
-for user in logged_users :
+for user in list_users :
     iter = iter + 1
     if user in friends :
         if logged_users[user] < 10 :
