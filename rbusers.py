@@ -61,20 +61,12 @@ for user in logged_users :
     else :
         try :
             group = pwd.getpwnam(user)[3]
-            try :
-                if logged_users[user] < 10 :
-                    print format_string_norm % ( groups[group], user.ljust(8),
-                    logged_users[user] ),
-                else :
-                    print format_string_10 % (groups[group], user.ljust(8),
-                    logged_users[user] ),
-            except KeyError:
-                if logged_users[user] < 10 :
-                    print format_string_norm % ( default_colour, user.ljust(8),
-                    logged_users[user] ), 
-                else :
-                    print format_string_10 % ( default_colour, user.ljust(8),
-                    logged_users[user] ), 
+            if logged_users[user] < 10 :
+                print format_string_norm % ( groups.get(group, default_colour),
+                user.ljust(8), logged_users[user] ),
+            else :
+                print format_string_10 % (groups.get(group, default_colour),
+                user.ljust(8), logged_users[user] ),
         except KeyError:
             iter = iter - 1
     if iter >= 5 :
