@@ -4,12 +4,11 @@ import pwd
 import os
 import sys
 import curses
-
 users = utmp.UtmpRecord()
 logged_users = {}
 #two format strings, to take a/c of users with >10 sessions
-format_string_norm = '%s%s (%d)'
-format_string_10 = '%s%s(%d)'
+format_string_norm = '%s%s \033[;0m(%d)'
+format_string_10 = '%s%s\033[;0m(%d)'
 #set colours if we have an encoding
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
@@ -39,7 +38,6 @@ else :
 for user in users :
     n = user.ut_user
     logged_users[n] = logged_users.get(n, 0) + 1
-
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
 
@@ -84,5 +82,5 @@ for user in logged_users :
         iter = 0
         print
         print '    ',
-#reset the colour
+#reset to default colour for stupid terms
 print default_colour
