@@ -17,8 +17,8 @@ if sys.stdout.encoding is not None :
     green_back_escape = '\033[;42m'
     magenta_back_escape = '\033[;45m'
     yellow_back_escape = '\033[;43m'
-    groups = { 100 : '\033[;31m', 107 : '\033[;36m', \
-    108 : '\033[;32m', 102 : '\033[;33m', 101 : '\033[;35m' }
+    groups = { 100 : '\033[;31m', 107 : '\033[;36m', 
+    108 : '\033[;32m', 102 : '\033[;33m', 101 : '\033[;35m', 103 : '\033[;0m' }
     title_message = '\033[;31mTotal \033[;0mNumber \033[;33mof \033[;34mUsers \033[;35monline\033[;0m:'
 else :
     default_colour = ''
@@ -29,7 +29,7 @@ else :
     green_back_escape = ''
     magenta_back_escape = ''
     yellow_back_escape = ''
-    groups = { 100 : '', 107 : '', 108 : '', 102 : '', 101 : '' }
+    groups = { 100 : '', 107 : '', 108 : '', 102 : '', 101 : '', 103 : '' }
     title_message = 'Total Number of Users Online:'
 for user in users :
     n = user.ut_user
@@ -52,7 +52,7 @@ green_back_escape, ' ', default_colour, ' guest' )
 print
 iter = 0
 print '    ', 
-for user in logged_users.keys() :
+for user in logged_users :
     iter = iter + 1
     if user in friends :
         if logged_users[user] < 10 :
