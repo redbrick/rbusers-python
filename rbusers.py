@@ -33,10 +33,7 @@ else :
     title_message = 'Total Number of Users Online:'
 for user in users :
     n = user.ut_user
-    try :
-        logged_users[n] = logged_users[n] + 1
-    except KeyError:
-        logged_users[n] = 1
+    logged_users[n] = logged_users.get(n, 0) + 1
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
 print '%s%s%s' % ('                         ' \
