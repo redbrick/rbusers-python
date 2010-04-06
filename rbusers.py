@@ -34,24 +34,20 @@ else :
 for user in users :
     n = user.ut_user
     try :
-        pwd.getpwnam(n)
-        try :
-            logged_users[n] = logged_users[n] + 1
-        except KeyError:
-            logged_users[n] = 1
+        logged_users[n] = logged_users[n] + 1
     except KeyError:
-        pass
+        logged_users[n] = 1
 friends_file = open( os.path.expanduser('~/.friends'), 'r')
 friends = [ i.rstrip() for i in friends_file.readlines() ]
 print '%s%s%s' % ('                         ' \
 , title_message, len(logged_users) )
-print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ',\
-white_back_escape, ' ', default_colour, ' friends   ', \
-red_back_escape, ' ', default_colour, ' committee  ',\
+print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ',
+white_back_escape, ' ', default_colour, ' friends   ', 
+red_back_escape, ' ', default_colour, ' committee  ',
 cyan_back_escape, ' ', default_colour, ' associate' )
-print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ', \
-magenta_back_escape, ' ', default_colour, ' society   ',\
-yellow_back_escape, ' ', default_colour, ' club       ',\
+print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ', 
+magenta_back_escape, ' ', default_colour, ' society   ',
+yellow_back_escape, ' ', default_colour, ' club       ',
 green_back_escape, ' ', default_colour, ' guest' )
 print
 iter = 0
@@ -68,19 +64,22 @@ for user in logged_users.keys() :
     else :
         try :
             group = pwd.getpwnam(user)[3]
-            if logged_users[user] < 10 :
-                print format_string_norm % ( groups[group], user.ljust(8),\
-                logged_users[user] ),
-            else :
-                print format_string_10 % (groups[group], user.ljust(8),\
-                logged_users[user] ),
+            try :
+                if logged_users[user] < 10 :
+                    print format_string_norm % ( groups[group], user.ljust(8),
+                    logged_users[user] ),
+                else :
+                    print format_string_10 % (groups[group], user.ljust(8),
+                    logged_users[user] ),
+            except KeyError:
+                if logged_users[user] < 10 :
+                    print format_string_norm % ( default_colour, user.ljust(8),
+                    logged_users[user] ), 
+                else :
+                    print format_string_10 % ( default_colour, user.ljust(8),
+                    logged_users[user] ), 
         except KeyError:
-            if logged_users[user] < 10 :
-                print format_string_norm % ( default_colour, user.ljust(8),\
-                logged_users[user] ), 
-            else :
-                print format_string_10 % ( default_colour, user.ljust(8),\
-                logged_users[user] ), 
+            iter = iter - 1
     if iter >= 5 :
         iter = 0
         print
