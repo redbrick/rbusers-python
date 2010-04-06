@@ -73,3 +73,4 @@ for user in logged_users :
         iter = 0
         print
         print '    ',
+print default_colour
