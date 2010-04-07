@@ -3,7 +3,6 @@ import utmp
 import pwd
 import os
 import sys
-import curses
 users = utmp.UtmpRecord()
 logged_users = {}
 #two format strings, to take a/c of users with >10 sessions
@@ -38,12 +37,28 @@ else :
 for user in users :
     n = user.ut_user
     logged_users[n] = logged_users.get(n, 0) + 1
-friends_file = open( os.path.expanduser('~/.friends'), 'r')
-friends = [ i.rstrip() for i in friends_file.readlines() ]
+
+#need to deal with .friends
+try :
+    friends_file = open( os.path.expanduser('~/.friends'), 'r')
+    friends = [ i.rstrip() for i in friends_file.readlines() ]
+except IOError :
+    pass
+
+#Alan wants sorted users, so sorted users he shall get
+list_users = logged_users.keys()
+list_users.sort()
+
+#need to remove users that don't exist
+for user in list_users :
+    try:
+        logged_users[user] = ( logged_users[user], pwd.getpwnam(user)[4])
+    except KeyError:
+        list_users.remove(user)
 
 #printing stuff
 print '%s%s%s' % ('                         ' \
-, title_message, len(logged_users) )
+, title_message, len(list_users) )
 print '%s%s%s%s%s%s%s%s%s%s%s%s%s' % ( '                      ',
 white_back_escape, ' ', default_colour, ' friends   ', 
 red_back_escape, ' ', default_colour, ' committee  ',
@@ -55,9 +70,6 @@ green_back_escape, ' ', default_colour, ' guest' )
 print
 print '    ', 
 
-#Alan wants sorted users, so sorted users he shall get
-list_users = logged_users.keys()
-list_users.sort()
 
 #go through and print the users. 
 #we only want 5 users for a line which is what iter is for
@@ -65,23 +77,19 @@ iter = 0
 for user in list_users :
     iter = iter + 1
     if user in friends :
-        if logged_users[user] < 10 :
-            print format_string_norm %\
-            (white_text_escape, user.ljust(8), logged_users[user] ),
-        else :
-            print format_string_10 %\
-            (white_text_escape, user.ljust(8), logged_users[user] ),
+         if logged_users[user] < 10 :
+             print format_string_norm %\
+             (white_text_escape, user.ljust(8), logged_users[user][0] ),
+         else :
+             print format_string_10 %\
+             (white_text_escape, user.ljust(8), logged_users[user][0] ),
     else :
-        try :
-            group = pwd.getpwnam(user)[3]
-            if logged_users[user] < 10 :
-                print format_string_norm % ( groups.get(group, default_colour),
-                user.ljust(8), logged_users[user] ),
-            else :
-                print format_string_10 % (groups.get(group, default_colour),
-                user.ljust(8), logged_users[user] ),
-        except KeyError:
-            iter = iter - 1
+         if logged_users[user] < 10 :
+             print format_string_norm % ( groups.get(logged_users[user][1], default_colour),
+             user.ljust(8), logged_users[user][0] ),
+         else :
+             print format_string_10 % (groups.get(logged_users[user][1], default_colour),
+             user.ljust(8), logged_users[user][0] ),
     if iter >= 5 :
         iter = 0
         print
