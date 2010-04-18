@@ -11,8 +11,8 @@ format_string_10 = '%s%s\033[;0m(%d)'
 #set colours if we have an encoding
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
-    white_text_escape = '\033[;034m'
-    white_back_escape = '\033[;44m'
+    white_text_escape = '\033[;035m'
+    white_back_escape = '\033[;45m'
     red_back_escape = '\033[;41m'
     cyan_back_escape = '\033[;46m'
     green_back_escape = '\033[;42m'
