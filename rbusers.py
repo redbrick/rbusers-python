@@ -11,15 +11,15 @@ format_string_10 = '%s%s\033[;0m(%d)'
 #set colours if we have an encoding
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
-    white_text_escape = '\033[;37m'
-    white_back_escape = '\033[;47m'
+    white_text_escape = '\033[;035m'
+    white_back_escape = '\033[;45m'
     red_back_escape = '\033[;41m'
     cyan_back_escape = '\033[;46m'
     green_back_escape = '\033[;42m'
-    magenta_back_escape = '\033[;45m'
+    magenta_back_escape = '\033[;44m'
     yellow_back_escape = '\033[;43m'
     groups = { 100 : '\033[;31m', 107 : '\033[;36m', 
-    108 : '\033[;32m', 102 : '\033[;33m', 101 : '\033[;35m', 103 : '\033[;0m' }
+    108 : '\033[;32m', 102 : '\033[;33m', 101 : '\033[;34m', 103 : '\033[;0m' }
     title_message = '\033[;31mTotal \033[;0mNumber \033[;33mof \033[;34mUsers \033[;35monline\033[;0m:'
 else :
     default_colour = ''
