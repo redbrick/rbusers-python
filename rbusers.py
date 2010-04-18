@@ -40,7 +40,7 @@ for user in users :
         logged_users[n][0] = logged_users[n][0] + 1
     except KeyError :
         try:
-            group = pwd.getpwnam(n)
+            group = pwd.getpwnam(n)[3]
             logged_users[n] = [ 1,  ]
             logged_users[n].append( groups.get( group, default_colour ) )
         except KeyError:
