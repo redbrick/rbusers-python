@@ -6,8 +6,8 @@ import sys
 users = utmp.UtmpRecord()
 logged_users = {}
 #two format strings, to take a/c of users with >10 sessions
-format_string_norm = '%s%s \033[;0m\033[;032m(\033[;033m%d\033[;032m) '
-format_string_10 = '%s%s\033[;0m(%d)'
+format_string_norm = '%s%8s \033[;0m\033[;032m(\033[;033m%d\033[;032m) '
+format_string_10 = '%s%8s\033[;0m(%d)'
 #set colours if we have an encoding
 if sys.stdout.encoding is not None :
     default_colour = '\033[;0m'
@@ -51,7 +51,10 @@ try :
     friends_file = open( os.path.expanduser('~/.friends'), 'r')
     friends = [ i.rstrip() for i in friends_file.readlines() ]
     for friend in friends :
-        logged_users[friend][1] = white_text_escape
+        try :
+            logged_users[friend][1] = white_text_escape
+        except KeyError :
+            pass
 except IOError :
     pass
 
