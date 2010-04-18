@@ -36,8 +36,15 @@ else :
 #need a dict of users + times logged in
 for user in users :
     n = user.ut_user
-    logged_users[n] = logged_users.get(n, 0) + 1
-
+    try :
+        logged_users[n][0] = logged_users[n][0] + 1
+    except KeyError :
+        try:
+            logged_users[n][0] = 1
+            logged_users[n][1] = groups.get( group, default_colour )
+        except KeyError:
+            pass
+       
 #need to deal with .friends
 try :
     friends_file = open( os.path.expanduser('~/.friends'), 'r')
@@ -48,13 +55,6 @@ except IOError :
 #Alan wants sorted users, so sorted users he shall get
 list_users = logged_users.keys()
 list_users.sort()
-
-#need to remove users that don't exist
-for user in list_users :
-    try:
-        logged_users[user] = ( logged_users[user], pwd.getpwnam(user)[4])
-    except KeyError:
-        list_users.remove(user)
 
 #printing stuff
 print '%s%s%s' % ('                         ' \
@@ -76,20 +76,12 @@ print '    ',
 iter = 0
 for user in list_users :
     iter = iter + 1
-    if user in friends :
-         if logged_users[user] < 10 :
-             print format_string_norm %\
-             (white_text_escape, user.ljust(8), logged_users[user][0] ),
-         else :
-             print format_string_10 %\
-             (white_text_escape, user.ljust(8), logged_users[user][0] ),
+    if proc_users[user][0] < 10 :
+        print format_string_norm % ( logged_users[user][1],
+        user.ljust(8), logged_users[user][0] ),
     else :
-         if logged_users[user] < 10 :
-             print format_string_norm % ( groups.get(logged_users[user][1], default_colour),
-             user.ljust(8), logged_users[user][0] ),
-         else :
-             print format_string_10 % (groups.get(logged_users[user][1], default_colour),
-             user.ljust(8), logged_users[user][0] ),
+        print format_string_10 % ( logged_users[user][1],
+        user.ljust(8), logged_users[user][0] ),
     if iter >= 5 :
         iter = 0
         print
