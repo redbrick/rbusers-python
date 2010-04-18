@@ -86,6 +86,6 @@ for user in list_users :
     if iter >= 5 :
         iter = 0
         print
-        print '    ',
+        print '     ',
 #reset to default colour for stupid terms
 print default_colour
