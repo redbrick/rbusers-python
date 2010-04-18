@@ -6,7 +6,7 @@ import sys
 users = utmp.UtmpRecord()
 logged_users = {}
 #two format strings, to take a/c of users with >10 sessions
-format_string_norm = '%s%s \033[;0m\033[;33m(%d) '
+format_string_norm = '%s%s \033[;0m\033[;032m(\033[;033m%d\033[;032m) '
 format_string_10 = '%s%s\033[;0m(%d)'
 #set colours if we have an encoding
 if sys.stdout.encoding is not None :
