@@ -40,8 +40,9 @@ for user in users :
         logged_users[n][0] = logged_users[n][0] + 1
     except KeyError :
         try:
-            logged_users[n][0] = 1
-            logged_users[n][1] = groups.get( group, default_colour )
+            group = pwd.getpwnam(n)
+            logged_users[n] = [ 1,  ]
+            logged_users[n].append( groups.get( group, default_colour ) )
         except KeyError:
             pass
        
@@ -76,7 +77,7 @@ print '    ',
 iter = 0
 for user in list_users :
     iter = iter + 1
-    if proc_users[user][0] < 10 :
+    if logged_users[user][0] < 10 :
         print format_string_norm % ( logged_users[user][1],
         user.ljust(8), logged_users[user][0] ),
     else :
