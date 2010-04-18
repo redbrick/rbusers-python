@@ -50,6 +50,8 @@ for user in users :
 try :
     friends_file = open( os.path.expanduser('~/.friends'), 'r')
     friends = [ i.rstrip() for i in friends_file.readlines() ]
+    for friend in friends :
+        logged_users[friend][1] = white_text_escape
 except IOError :
     pass
 
@@ -69,7 +71,7 @@ magenta_back_escape, ' ', default_colour, ' society   ',
 yellow_back_escape, ' ', default_colour, ' club       ',
 green_back_escape, ' ', default_colour, ' guest' )
 print
-print '    ', 
+print '     ', 
 
 
 #go through and print the users. 
