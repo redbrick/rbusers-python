@@ -32,6 +32,18 @@ else :
     yellow_back_escape = ''
     groups = { 100 : '', 107 : '', 108 : '', 102 : '', 101 : '', 103 : '' }
     title_message = 'Total Number of Users Online:'
+       
+#need to deal with .friends
+try :
+    friends_file = open( os.path.expanduser('~/.friends'), 'r')
+    friends = [ i.rstrip() for i in friends_file.readlines() ]
+    for friend in friends :
+        try :
+            logged_users[friend][1] = white_text_escape
+        except KeyError :
+            pass
+except IOError :
+    pass
 
 #need a dict of users + times logged in
 for user in users :
@@ -45,18 +57,6 @@ for user in users :
             logged_users[n].append( groups.get( group, default_colour ) )
         except KeyError:
             pass
-       
-#need to deal with .friends
-try :
-    friends_file = open( os.path.expanduser('~/.friends'), 'r')
-    friends = [ i.rstrip() for i in friends_file.readlines() ]
-    for friend in friends :
-        try :
-            logged_users[friend][1] = white_text_escape
-        except KeyError :
-            pass
-except IOError :
-    pass
 
 #Alan wants sorted users, so sorted users he shall get
 list_users = logged_users.keys()
