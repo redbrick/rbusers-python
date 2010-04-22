@@ -37,11 +37,6 @@ else :
 try :
     friends_file = open( os.path.expanduser('~/.friends'), 'r')
     friends = [ i.rstrip() for i in friends_file.readlines() ]
-    for friend in friends :
-        try :
-            logged_users[friend][1] = white_text_escape
-        except KeyError :
-            pass
 except IOError :
     pass
 
@@ -55,6 +50,8 @@ for user in users :
             group = pwd.getpwnam(n)[3]
             logged_users[n] = [ 1,  ]
             logged_users[n].append( groups.get( group, default_colour ) )
+            if user in friends and group is not 100 :
+                logged_users[n][1] = white_text_escape
         except KeyError:
             pass
 
