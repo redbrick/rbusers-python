@@ -50,8 +50,9 @@ for user in users :
             group = pwd.getpwnam(n)[3]
             logged_users[n] = [ 1,  ]
             logged_users[n].append( groups.get( group, default_colour ) )
-            if user in friends and group is not 100 :
+            if n in friends and group is not 100:
                 logged_users[n][1] = white_text_escape
+                print '%s : %s in friends' % ( user, group )
         except KeyError:
             pass
 
