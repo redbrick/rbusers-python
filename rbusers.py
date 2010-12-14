@@ -1,4 +1,5 @@
 #!/usr/bin/python
+#use spaces, not tabs
 import utmp
 import pwd
 import os
