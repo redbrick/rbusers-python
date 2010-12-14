@@ -42,19 +42,19 @@ except IOError :
 
 #need a dict of users + times logged in
 for user in users :
-    n = user.ut_user
-    try :
-        logged_users[n][0] = logged_users[n][0] + 1
-    except KeyError :
-        try:
-            group = pwd.getpwnam(n)[3]
-            logged_users[n] = [ 1,  ]
-            logged_users[n].append( groups.get( group, default_colour ) )
-            if n in friends and group is not 100:
-                logged_users[n][1] = white_text_escape
-                print '%s : %s in friends' % ( user, group )
-        except KeyError:
-            pass
+    if user.ut_type == 7 :
+        n = user.ut_user
+        try :
+            logged_users[n][0] = logged_users[n][0] + 1
+        except KeyError :
+            try:
+                group = pwd.getpwnam(n)[3]
+                logged_users[n] = [ 1,  ]
+                logged_users[n].append( groups.get( group, default_colour ) )
+                if n in friends and group is not 100:
+                    logged_users[n][1] = white_text_escape
+            except KeyError:
+                pass
 
 #Alan wants sorted users, so sorted users he shall get
 list_users = logged_users.keys()
